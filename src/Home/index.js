@@ -28,7 +28,7 @@ class Login extends Component {
 			const parsedResponse = await loginResponse.json();
 
 			if (parsedResponse.data === 'login successful') {
-				this.props.history.push('/animesearch')
+				this.props.history.push('/')
 			}
 
 

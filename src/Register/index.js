@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-class Login extends Component {
+class Register extends Component {
 	constructor() {
 		super();
 		this.state = {
 			username: '',
-			password: ''
+			password: '',
+			email:''
 		}
 	}
 	handleChange = (e) => {
@@ -16,7 +17,8 @@ class Login extends Component {
 	handleSubmit= async (e) => {
 		e.preventDefault();
 		try{
-			const loginResponse = await fetch(process.env.REACT_APP_BACK_URL + '/users/login', {
+
+			const registerResponse = await fetch(process.env.REACT_APP_BACK_URL + '/users', {
 				method: 'POST',
 				credentials: 'include',
 				body: JSON.stringify(this.state),
@@ -25,9 +27,9 @@ class Login extends Component {
 				}
 			})
 
-			const parsedResponse = await loginResponse.json();
+			const parsedResponse = await registerResponse.json();
 
-			if (parsedResponse.data === 'login successful') {
+			if (parsedResponse.data === 'register successful') {
 				this.props.history.push('/animesearch')
 			}
 
@@ -41,10 +43,12 @@ class Login extends Component {
 			<form onSubmit={this.handleSubmit}>
 				Username: <input type="text" name="username" onChange={this.handleChange} /><br/>
 				Password: <input type="password" name="password" onChange={this.handleChange} /><br/>
-				<button type="submit">Log In</button>
+				Email: <input type="text" name="email" onChange={this.handleChange} /><br/>
+				<button type="submit">Register</button>
 			</form>
 		);
 	}
 }
 
-export default Login
+export default Register
+
