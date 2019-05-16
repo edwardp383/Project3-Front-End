@@ -3,9 +3,8 @@ import React from 'react';
 import './App.css';
 import Login from './Login'
 import Header from './Header';
-
 import Register from './Register'
-
+import AnimeSearch from './AnimeSearch'
 import { Route, Switch} from 'react-router-dom'
 
 
@@ -26,8 +25,9 @@ function App() {
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/register" component={ Register } />
+          <Route exact path="/animesearch" component={ AnimeSearch } />
+
 {/*          <Route exact path="/" component={} />
-          <Route exact path="/" component={} />
           <Route exact path="/" component={} />
           <Route exact path="/" component={} />*/}
           <Route component={ My404 } />

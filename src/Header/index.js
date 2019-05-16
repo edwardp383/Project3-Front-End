@@ -12,7 +12,7 @@ class Header extends Component {
 				<div>
 					<Link to='/'>Home</Link>
 					<Link to='/register'>Register</Link>
-					<Link to='/animesearch'>AnimeList</Link>
+					<Link to='/animesearch'>FindAnime</Link>
 				</div>
 
 			</div>

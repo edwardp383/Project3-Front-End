@@ -1,30 +1,55 @@
-// import React, { Component } from 'react';
+import React, { Component } from 'react';
+import AnimeResults from '../AnimeResults'
 
-// class AnimeSearch extends Component {
-// 	getMovies = async () => {
+class AnimeSearch extends Component {
+	constructor(){
+		super();
+		this.state = {
+			search:'',
+			anime: []
 
-//     try {
-//       const response = await fetch('http://localhost:9000/api/v1/movies');
+		}
+	}
+	handleChange = (e) => {
+		this.setState({
+			[e.target.name]: e.target.value
+		});
+	}
+	handleClick = (e) => {
+		e.preventDefault();
+		this.setState({
+			[e.currentTarget.name]: e.currentTarget.value
+		})
+		this.getAnime()
+	}
+	getAnime = async () => {
+	    try{
+	      const response = await fetch(`https://kitsu.io/api/edge/anime?filter[text]=${this.state.search}`)
+	      const anime = await response.json()
+	      this.setState({
+	        anime: anime.data
+	      })
+	      console.log(this.state.anime);
+	    }catch(err){
+	      console.log('there was an error -- see below');
+	      console.log(err);
 
-//       if(response.status !== 200){
-//         // for http errors, Fetch doesn't reject the promise on 404 or 500
-//         throw Error(response.statusText);
-//       }
+	    }
+  	}
+	render() {
+		return (
+			<div>
+				<h1>Search For An Anime By Title</h1>
+				<form onSubmit= {this.handleClick} >
+					<input type="text" name="search" onChange={this.handleChange} />
+					<button>Search</button>
+				</form>
+				<AnimeResults anime={this.state.anime} />
+			</div>
+		);
+	}
+}
 
-//       const moviesParsed = await response.json();
-//       // after setState render is automatically called
+export default AnimeSearch
 
-//       this.setState({movies: moviesParsed.data});
 
-//     } catch (err){
-//       console.log(err);
-//     }
-//   }
-// 	render() {
-// 		return (
-// 			<div></div>
-// 		);
-// 	}
-// }
-
-// export default AnimeSearch
