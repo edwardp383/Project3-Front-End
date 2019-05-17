@@ -81,8 +81,8 @@ class SpecificAnime extends Component {
 				<h1>{this.state.title}</h1>
 				<img src={this.state.img} />
 				<p>{this.state.synopsis}</p>
-				{episodeList}
 				<button onClick={this.saveAnime} >Save</button>
+				{episodeList}
 			</div>
 		);
 	}

@@ -43,7 +43,9 @@ class AnimeTracker extends Component {
 			return(
 				<div key={i}>
 					<p> {this.state.title} episode {episode}</p>
-					<input type="checkbox" name={i} />
+					<form>
+						<input type="checkbox" name={i} />
+					</form>
 				</div>
 			)
 		})
