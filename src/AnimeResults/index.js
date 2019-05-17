@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import SpecificAnime from '../SpecificAnime'
 
 class AnimeResults extends Component {
   constructor() {
@@ -8,21 +8,18 @@ class AnimeResults extends Component {
       showId: null
     }
   }
-  // revealShow = (e) => {
+  revealShow = (e) => {
+    this.setState({
+      showId: e.currentTarget.id
+    });
 
-  //   console.log(e.currentTarget.id)
-
-  //   this.setState({
-  //     showId: e.currentTarget.id
-  //   });
-
-  // }
+  }
 	render() {
     const anime = this.props.anime;
     const animelist = anime.map((anime, i) => {
       console.log();
       return(
-        <div key={i}>
+        <div id={anime.id} onClick={this.revealShow.bind(anime.id)} key={i}>
           <img src={anime.attributes.posterImage.tiny}/>
           <p> {anime.attributes.canonicalTitle} </p>
         </div>
@@ -30,7 +27,8 @@ class AnimeResults extends Component {
     })
 		return (
 			<div>
-        {animelist}
+        {this.state.showId ? <SpecificAnime userId={this.props.userId} id={this.state.showId} /> : animelist}
+        
       </div>
 		);
 	}

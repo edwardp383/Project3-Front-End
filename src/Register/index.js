@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class Register extends Component {
 	constructor() {
@@ -31,6 +32,7 @@ class Register extends Component {
 
 			if (parsedResponse.data === 'register successful') {
 				this.props.history.push('/animesearch')
+				this.props.userLogin(this.state.username)
 			}
 
 
@@ -50,5 +52,5 @@ class Register extends Component {
 	}
 }
 
-export default Register
+export default withRouter(Register)
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class Login extends Component {
 	constructor() {
@@ -27,8 +28,11 @@ class Login extends Component {
 
 			const parsedResponse = await loginResponse.json();
 
-			if (parsedResponse.data === 'login successful') {
-				this.props.history.push('/animesearch')
+			if (parsedResponse.status === 200) {
+				this.props.history.push('/MyAnime')
+				this.props.userLogin(this.state.username, parsedResponse.data);
+
+				// this.props.history.push('/MyAnime')
 			}
 
 
@@ -47,4 +51,4 @@ class Login extends Component {
 	}
 }
 
-export default Login
+export default withRouter(Login)

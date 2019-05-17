@@ -13,6 +13,7 @@
 
 .Header > div {
   display: flex;
+  padding: 10px;
 }
 
 .App {

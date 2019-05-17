@@ -6,8 +6,7 @@ class AnimeSearch extends Component {
 		super();
 		this.state = {
 			search:'',
-			anime: []
-
+			anime: [],
 		}
 	}
 	handleChange = (e) => {
@@ -44,7 +43,7 @@ class AnimeSearch extends Component {
 					<input type="text" name="search" onChange={this.handleChange} />
 					<button>Search</button>
 				</form>
-				<AnimeResults anime={this.state.anime} />
+				<AnimeResults userId={this.props.userId} anime={this.state.anime} />
 			</div>
 		);
 	}
