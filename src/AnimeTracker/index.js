@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class AnimeTracker extends Component {
 	constructor() {
@@ -36,28 +37,97 @@ class AnimeTracker extends Component {
 	      console.log(err);
 	    }
   	}
+  	handleChange = (e) => {
+  		let episodesWatched = this.state.episodesWatched;
+  		if (episodesWatched[e.target.name] == false) {
+
+  			episodesWatched[e.target.name] = true;
+
+  		} else if(episodesWatched[e.target.name]) {
+
+  			episodesWatched[e.target.name] = false;
+
+  		}
+ 		this.setState({
+ 			episodesWatched: episodesWatched
+ 		})
+  		console.log(this.state.episodesWatched);
+  	}
+  	saveAnime = async (e) => {
+		try{
+			e.preventDefault()
+			const saveResponse = await fetch(process.env.REACT_APP_BACK_URL + `/api/v1/anime/${this.props.animeId}`, {
+				method: 'PUT',
+				credentials: 'include',
+				body: JSON.stringify(this.state),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+
+		} catch(err) {
+			console.log(err);
+		}
+  	}
+  	deleteAnime = async (e) => {
+		try{
+			console.log("delete hit");
+			e.preventDefault()
+			const deleteResponse = await fetch(process.env.REACT_APP_BACK_URL + `/api/v1/anime/${this.props.animeId}`, {
+				method: 'DELETE',
+          		credentials: 'include',
+          		headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			const parsedResponse = await deleteResponse.json();
+			console.log(parsedResponse.data);
+			if (parsedResponse.data == "Anime Deleted") {
+				this.props.history.push("/animesearch")
+			}
+		} catch(err) {
+			console.log(err);
+		}
+  	}
 	render() {
 		console.log(this.state);
 		const episodes = this.state.episodes;
 		const episodeList = episodes.map((episode, i) => {
-			return(
-				<div key={i}>
-					<p> {this.state.title} episode {episode}</p>
-					<form>
-						<input type="checkbox" name={i} />
-					</form>
-				</div>
-			)
+			if (this.state.episodesWatched[i] == false) {
+				return(
+					<div className="EpChecks" key={i}>
+						<p> {this.state.title} episode {episode}</p>
+						<input type="checkbox" name={i} onChange={ this.handleChange } /><br/>
+					</div>
+				)
+			} else if (this.state.episodesWatched[i]) {
+				return(
+					<div className="EpChecks" key={i}>
+						<p> {this.state.title} episode {episode}</p>
+						<input type="checkbox" name={i} onChange={ this.handleChange } checked="checked"/><br/>
+					</div>
+				)
+			}
 		})
+
 		return (
 			<div>
 				<h1>{this.state.title}</h1>
 				<img src={this.state.img} />
 				<p>{this.state.synopsis}</p>
-				{episodeList}
-				<button onClick={this.saveAnime} >Save</button>
+				<form onSubmit={this.deleteAnime}>
+					<button>Remove Anime</button>
+				</form>
+				<div>
+					<div>
+						<form onSubmit={ this.saveAnime }>
+							{episodeList}
+							<button>Save</button>
+						</form>
+					</div>
+				</div>
 			</div>
 		);
 	}
 }
-export default AnimeTracker
+export default withRouter(AnimeTracker)
